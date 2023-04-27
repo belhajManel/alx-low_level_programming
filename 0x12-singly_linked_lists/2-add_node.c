@@ -1,62 +1,38 @@
-#include <stdlib.h>
 #include "lists.h"
+#include <string.h>
 
 /**
- * add_node - function with two arguments
- * @head: double pointer to linked list
- * @str: string pointer
+ * _strlen - returns the length of a string
+ * @s: string to be measured
  *
- * Description: adds a new node at the beginning
- * Return: address of new element
+ * Return: the length of the string
  */
-list_t *add_node(list_t **head, const char *str)
+int _strlen(const char *s)
 {
-	int count = 0;
-	list_t *temp;
+	int i = 0;
 
-	temp = malloc(sizeof(list_t));
-	if (temp == NULL)
-		return (NULL);
-	temp->str = _strdup(str);
-	while (str[count] != '\0')
-		count++;
-	temp->len = count;
-	temp->next = *head;
-	*head = temp;
-	return (temp);
+	while (s[i])
+		i++;
+	return (i);
 }
 
 /**
- * *_strdup - function with one argument
- * @str: string argument
+ * add_node - adds a new node at the beginning of a list_t list
+ * @head: pointer to the head of the list
+ * @str: string to be duplicated
  *
- * Description: returns a pointer to allocated space in memory
- * Return: pointer
+ * Return: the address of the new element, or NULL if it failed
  */
-char *_strdup(const char *str)
+list_t *add_node(list_t **head, const char *str)
 {
-	int i, j;
-	char *ptr;
+	list_t *new;
 
-	if (str == NULL)
+	new = malloc(sizeof(list_t));
+	if (new == NULL)
 		return (NULL);
-	i = 0;
-	while (*(str + i) != '\0')
-	{
-		i++;
-	}
-
-	ptr = malloc(sizeof(char) * i + 1);
-
-	if (ptr == NULL)
-		return (NULL);
-
-	j = 0;
-	while (str[j] != '\0')
-	{
-		ptr[j] = str[j];
-		j++;
-	}
-	ptr[j] = '\0';
-	return (ptr);
+	new->str = strdup(str);
+	new->len = _strlen(str);
+	new->next = *head;
+	*head = new;
+	return (new);
 }
